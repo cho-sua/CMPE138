@@ -1,5 +1,0 @@
-SELECT y.hospital_name, x.drg_definition, x.hospital_referral_region_description AS hospital_region
-FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014` x
-JOIN `bigquery-public-data.cms_medicare.hospital_general_info` y
-ON x.provider_id = y.provider_id
-LIMIT 10
