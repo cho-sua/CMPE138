@@ -1,4 +1,0 @@
-SELECT DISTINCT provider_id, provider_name, provider_street_address, average_covered_charges, average_total_payments, average_medicare_payments
-FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014`
-WHERE provider_state = "FL"
-LIMIT 10
