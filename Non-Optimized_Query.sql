@@ -1,4 +1,4 @@
-// Query 1
+-- Query 1 Discover all Floridian physicians and suppliers
 SELECT
   npi AS doctor_ID,
   nppes_provider_first_name,
@@ -11,7 +11,9 @@ WHERE
   LOWER(nppes_provider_state) = 'fl'
 LIMIT 1000;
 
-// Query 2
+-- Query 2 Discover all physicians / suppliers who have an average medicare 
+-- payment less than half the submitted charge amount AND the average charge amount is > $1000
+
 SELECT
   npi,
   nppes_provider_first_name,
@@ -27,7 +29,8 @@ ORDER BY
   average_submitted_chrg_amt DESC
 LIMIT 100;
 
-// Query 3
+-- Query 3 - Query the amount of physicians/suppliers in Californian cities with a minimum of 200
+--
 SELECT
   nppes_provider_city,
   COUNT(DISTINCT npi) AS num_providers
@@ -41,19 +44,21 @@ HAVING
   COUNT(DISTINCT npi) > 200
 ORDER BY
   num_providers DESC;
-// Query 4
+
+-- Query 4 - Find 10 of the providers / suppliers in Florida
 SELECT DISTINCT provider_id, provider_name, provider_street_address, average_covered_charges, average_total_payments, average_medicare_payments
 FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014`
 WHERE provider_state = "FL"
 LIMIT 10
-// Query 5
+
+-- Query 5 - Find 10 hospitals and their provider perscribed drugs.
 SELECT y.hospital_name, x.drg_definition, x.hospital_referral_region_description AS hospital_region
 FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014` x
 JOIN `bigquery-public-data.cms_medicare.hospital_general_info` y
 ON x.provider_id = y.provider_id
 LIMIT 10
 
-// Query 6
+-- Query 6 -- Discover 20 hospitals, gathering their general information and available providers.
 SELECT DISTINCT hospital_name, hospital_ownership, address, city, hospital_overall_rating, county_name, phone_number
 FROM `bigquery-public-data.cms_medicare.hospital_general_info`
 WHERE provider_id IN(
