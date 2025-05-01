@@ -51,18 +51,8 @@ FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014`
 WHERE provider_state = "FL"
 LIMIT 10
 
--- Query 5 - Find 10 hospitals and their provider perscribed drugs.
-SELECT y.hospital_name, x.drg_definition, x.hospital_referral_region_description AS hospital_region
-FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014` x
-JOIN `bigquery-public-data.cms_medicare.hospital_general_info` y
-ON x.provider_id = y.provider_id
-LIMIT 10
-
--- Query 6 -- Discover 20 hospitals, gathering their general information and available providers.
-SELECT DISTINCT hospital_name, hospital_ownership, address, city, hospital_overall_rating, county_name, phone_number
-FROM `bigquery-public-data.cms_medicare.hospital_general_info`
-WHERE provider_id IN(
-  SELECT provider_id
-  FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014`
-)
-LIMIT 20
+-- Query 5 - List all hostpitals, their general information, and current patient diagnoses
+SELECT DISTINCT a.hospital_name, a.hospital_ownership, a.address, a.city, a.hospital_overall_rating, a.county_name, a.phone_number, b.hospital_referral_region_description as region, b.drg_definition
+FROM `bigquery-public-data.cms_medicare.hospital_general_info` a,`bigquery-public-data.cms_medicare.inpatient_charges_2014` b
+WHERE a.provider_id = b.provider_id
+LIMIT 100;
