@@ -66,3 +66,39 @@ WHERE provider_id IN(
   FROM `bigquery-public-data.cms_medicare.inpatient_charges_2014`
 )
 LIMIT 20
+
+
+-- Query 7 -- Find the average care given across all health care agencies.
+SELECT 
+  AVG(percent_of_patients_with_cancer) AS avg_percent_cancer,
+  AVG(percent_of_patients_with_depression) AS avg_percent_depression,
+  AVG(percent_of_patients_with_heart_failure) AS avg_percent_heart_failure,
+  AVG(percent_of_patients_with_diabetes) AS avg_percent_diabetes,
+  AVG(percent_of_patients_with_hypertension) AS avg_percent_hypertension,
+  AVG(percent_of_patients_with_osteoporosis) AS avg_percent_osteoporosis,
+  AVG(percent_of_patients_with_stroke) AS avg_percent_stroke
+FROM
+  `bigquery-public-data.cms_medicare.home_health_aagencies_2014`
+WHERE
+  percent_of_patients_with_cancer IS NOT NULL OR
+  percent_of_patients_with_depression IS NOT NULL OR
+  percent_of_patients_with_heart_failure IS NOT NULL OR
+  percent_of_patients_with_diabetes IS NOT NULL OR
+  percent_of_patients_with_hypertension IS NOT NULL OR
+  percent_of_patients_with_osteoporosis IS NOT NULL OR
+  percent_of_patients_with_stroke IS NOT NULL;
+
+-- Query 8 -- Breakdown of care given by sex / race
+
+SELECT 
+  SUM(male_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_male,
+  SUM(female_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_female,
+  SUM(nondual_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_nonbinary,
+  SUM(white_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_white,
+  SUM(black_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_black,
+  SUM(asian_pacific_islander_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_asian,
+  SUM(hispanic_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_hispanic,
+  SUM(american_indian_or_alaska_native_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_native,
+  SUM(other_or_unknown_benefciaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_other,
+FROM
+  `bigquery-public-data.cms_medicare.home_health_agencies_2014`;
