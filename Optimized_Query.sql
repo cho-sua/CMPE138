@@ -1,4 +1,4 @@
-// Optimized Query 1 (from Query 1)
+-- Optimized Query 1 (from Query 1)  Find all Floridian physicians and suppliers
 SELECT
   npi AS doctor_ID,
   nppes_provider_first_name,
@@ -11,7 +11,7 @@ WHERE
   nppes_provider_state = 'FL'
 LIMIT 1000;
 
-// Optimized Query 2( from Query 6)
+-- Optimized Query 2 (from Query 6) List all hostpitals 
 SELECT DISTINCT x.hospital_name, x.hospital_ownership, x.address, x.city, x.hospital_overall_rating, x.county_name,x.phone_number
 FROM `bigquery-public-data.cms_medicare.hospital_general_info` x
 JOIN `bigquery-public-data.cms_medicare.inpatient_charges_2014` y
