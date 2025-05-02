@@ -52,7 +52,7 @@ WHERE provider_state = "FL"
 LIMIT 10
 
 -- Query 5 - List all hostpitals, their general information, and current patient diagnoses
-SELECT DISTINCT a.hospital_name, a.hospital_ownership, a.address, a.city, a.hospital_overall_rating, a.county_name, a.phone_number, b.hospital_referral_region_description as region, b.drg_definition
+SELECT DISTINCT a.hospital_name, a.hospital_ownership, a.address, a.city, a.hospital_overall_rating, a.county_name, a.phone_number, b.hospital_referral_region_description as region, b.drg_definition, b.average_covered_charges, b.average_medicare_payments, b.average_total_payments, b.total_discharges
 FROM `bigquery-public-data.cms_medicare.hospital_general_info` a,`bigquery-public-data.cms_medicare.inpatient_charges_2014` b
 WHERE a.provider_id = b.provider_id
 LIMIT 100;
