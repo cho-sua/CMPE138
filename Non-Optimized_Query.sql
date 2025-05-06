@@ -56,3 +56,28 @@ SELECT DISTINCT a.hospital_name, a.hospital_ownership, a.address, a.city, a.hosp
 FROM `bigquery-public-data.cms_medicare.hospital_general_info` a,`bigquery-public-data.cms_medicare.inpatient_charges_2014` b
 WHERE a.provider_id = b.provider_id
 LIMIT 100;
+
+--Query 6 - Gets percentages based on gender and nationality
+SELECT 
+   SUM(male_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_male,
+   SUM(female_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_female,
+   SUM(nondual_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_nonbinary,
+   SUM(white_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_white,
+   SUM(black_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_black,
+   SUM(asian_pacific_islander_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_asian,
+   SUM(hispanic_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_hispanic,
+   SUM(american_indian_or_alaska_native_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_native,
+   SUM(other_unknown_beneficiaries) / NULLIF(SUM(distinct_beneficiaries_non_lupa), 0) * 100 AS percent_other,
+ FROM
+   `bigquery-public-data.cms_medicare.home_health_agencies_2014`;
+
+--Query 7 - Gets averge percentages of specified diagnoses
+SELECT 
+   AVG(percent_of_beneficiaries_with_cancer) AS avg_percent_cancer,
+   AVG(percent_of_beneficiaries_with_depression) AS avg_percent_depression,
+   AVG(percent_of_beneficiaries_with_diabetes) AS avg_percent_diabetes,
+   AVG(percent_of_beneficiaries_with_hypertension) AS avg_percent_hypertension,
+   AVG(percent_of_beneficiaries_with_osteoporosis) AS avg_percent_osteoporosis,
+   AVG(percent_of_beneficiaries_with_stroke) AS avg_percent_stroke
+ FROM
+   `bigquery-public-data.cms_medicare.home_health_agencies_2014`
